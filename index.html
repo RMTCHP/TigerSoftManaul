@@ -7,16 +7,15 @@
 
   <style>
     :root{
-      --bg: #f5f5f5;
-      --white: #ffffff;
-      --red: #d90429;
-      --red-soft: #ffe5ea;
-      --gray-dark: #333333;
-      --gray: #666666;
-      --gray-light: #dddddd;
-      --border: #e5e5e5;
-      --shadow: 0 8px 24px rgba(0,0,0,.06);
-      --radius: 14px;
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --border: rgba(255,255,255,.14);
+      --accent2: #60a5fa;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --radius: 18px;
     }
 
     * { box-sizing: border-box; }
@@ -25,144 +24,145 @@
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif;
-      background: var(--bg);
-      color: var(--gray-dark);
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(96,165,250,.25), transparent 60%),
+        radial-gradient(700px 420px at 90% 10%, rgba(52,211,153,.18), transparent 60%),
+        linear-gradient(180deg, #071022 0%, #050914 100%);
+      min-height: 100vh;
     }
 
     .container{
       max-width: 1100px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding:
+        calc(28px + env(safe-area-inset-top))
+        18px
+        calc(40px + env(safe-area-inset-bottom));
     }
 
     header{
-      margin-bottom: 30px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
     }
 
-    h1{
-      margin:0;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--gray-dark);
-    }
-
-    .subtitle{
-      margin-top:8px;
-      color: var(--gray);
-      font-size:14px;
-    }
+    h1{ font-size: 24px; margin:0; letter-spacing: .2px; }
+    .subtitle{ margin:6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.35; }
 
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-bottom: 30px;
+      gap: 12px;
+      margin-top: 14px;
+      margin-bottom: 16px;
     }
 
-    @media (max-width: 1000px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-    }
-
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px){
-      .grid{ grid-template-columns: 1fr; }
-      h1{ font-size:22px; }
+      h1{ font-size: 20px; }
+      .subtitle{ font-size: 13px; }
+      .grid{ grid-template-columns: 1fr; gap: 10px; }
+      .pill{ font-size: 11px; }
     }
 
     .card{
-      background: var(--white);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px;
       cursor:pointer;
-      transition: all .2s ease;
-      box-shadow: var(--shadow);
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.03) 100%);
+      border-radius: var(--radius);
+      padding: 14px 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+      outline: none;
       text-align:left;
     }
-
     .card:hover{
-      transform: translateY(-4px);
-      border-color: var(--red);
-      box-shadow: 0 12px 30px rgba(217,4,41,.15);
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.24);
+      background: linear-gradient(180deg, var(--card2) 0%, rgba(255,255,255,.04) 100%);
     }
-
     .card.active{
-      border-color: var(--red);
-      background: var(--red-soft);
+      border-color: rgba(96,165,250,.55);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.18), var(--shadow);
     }
 
     .card-top{
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      margin-bottom: 12px;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
     .pill{
-      font-size:12px;
-      padding:5px 10px;
-      border-radius:999px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
       border:1px solid var(--border);
-      background:#fafafa;
-      color: var(--gray);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      white-space: nowrap;
     }
 
-    .pill.red{
-      border-color: var(--red);
-      color: var(--red);
-      background: var(--red-soft);
-      font-weight:600;
-    }
-
-    .card h3{
-      margin:0;
-      font-size:15px;
-      font-weight:600;
-      color: var(--gray-dark);
-    }
-
-    .card p{
-      margin-top:6px;
-      font-size:13px;
-      color: var(--gray);
-    }
+    .card h3{ margin:0; font-size: 15px; letter-spacing: .2px; }
+    .card p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
 
     .footer{
-      border-top:1px solid var(--border);
-      padding-top:15px;
-      font-size:12px;
-      color: var(--gray);
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
-
+    .kbd{
+      border:1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-size: 12px;
+    }
+    @media (max-width: 600px){
+      .footer .kbd{ display:none; }
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <header>
-      <h1>คู่มือการใช้งานระบบ Tiger Soft</h1>
-      <p class="subtitle">คลิกหัวข้อเพื่อเปิด PDF ในแท็บใหม่</p>
+      <div>
+        <h1>คู่มือการใช้งานระบบ Tiger Soft</h1>
+        <p class="subtitle">คลิกหัวข้อเพื่อเปิด PDF</p>
+      </div>
     </header>
 
-    <section class="grid" id="topicGrid"></section>
+    <section class="grid" id="topicGrid" aria-label="หัวข้อคู่มือ"></section>
 
     <div class="footer">
-      © <span id="year"></span> Resonac Materials (Thailand) Co., Ltd. – TigerSoft Manual Developed by IT Department
+      <div>© <span id="year"></span> Resonac Materials (Thailand) Co., Ltd. – TigerSoft Manual Developed by IT Department</div>
     </div>
   </div>
 
   <script>
     const TOPICS = [
-      { id:"t1", no:"01", title:"คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน", file:"คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน.pdf" },
-      { id:"t2", no:"02", title:"คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า", file:"คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า.pdf" },
-      { id:"t3", no:"03", title:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน", file:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน.pdf" },
-      { id:"t4", no:"04", title:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน", file:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน.pdf" }
+      { id:"t1", no:"01", title:"คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน", desc:"Mobile Guide (Employee)", file:"คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน.pdf" },
+      { id:"t2", no:"02", title:"คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า", desc:"Mobile Guide (Supervisor)", file:"คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า.pdf" },
+      { id:"t3", no:"03", title:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน", desc:"PC Guide (Employee)", file:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน.pdf" },
+      { id:"t4", no:"04", title:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน", desc:"PC Guide (Supervisor)", file:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน.pdf" }
     ];
 
     const els = {
       grid: document.getElementById("topicGrid"),
       year: document.getElementById("year"),
     };
-
     els.year.textContent = new Date().getFullYear();
 
     function buildPdfUrl(fileName){
@@ -171,37 +171,56 @@
 
     function renderCards(){
       els.grid.innerHTML = TOPICS.map(t => `
-        <button class="card" data-id="${t.id}">
+        <button class="card" data-id="${t.id}" type="button" aria-label="${t.title}">
           <div class="card-top">
             <span class="pill">Topic ${t.no}</span>
-            <span class="pill red">PDF</span>
+            <span class="pill" style="border-color: rgba(96,165,250,.35); background: rgba(96,165,250,.08);">PDF</span>
           </div>
           <h3>${t.title}</h3>
+          <p>${t.desc}</p>
         </button>
       `).join("");
 
-      document.querySelectorAll(".card").forEach(btn => {
-        btn.addEventListener("click", () => openTopic(btn.dataset.id));
+      els.grid.querySelectorAll(".card").forEach(btn => {
+        btn.addEventListener("click", () => openTopic(btn.dataset.id, true));
       });
     }
 
     function setActiveCard(topicId){
-      document.querySelectorAll(".card").forEach(c => {
+      els.grid.querySelectorAll(".card").forEach(c => {
         c.classList.toggle("active", c.dataset.id === topicId);
       });
     }
 
-    function openTopic(topicId){
-      const t = TOPICS.find(x => x.id === topicId);
+    function openTopic(topicId, updateHash){
+      const t = TOPICS.find(x => x.id === topicId) || TOPICS[0];
       const pdfUrl = buildPdfUrl(t.file);
 
       setActiveCard(t.id);
+      if (updateHash) location.hash = t.id;
 
-      // เปิด PDF ในแท็บใหม่
+      // ✅ เปิด PDF ในแท็บใหม่ทันที
       window.open(pdfUrl, "_blank", "noopener");
     }
 
+    // โหลดจาก hash ไม่เด้งเปิดแท็บใหม่ตอนรีเฟรช
+    function initFromHash(){
+      const id = location.hash.replace("#", "");
+      const found = TOPICS.some(t => t.id === id);
+      setActiveCard(found ? id : TOPICS[0].id);
+    }
+
+    // Keyboard shortcut 1-4 (คอม) -> เปิดแท็บใหม่
+    window.addEventListener("keydown", (e) => {
+      if (e.target && ["INPUT","TEXTAREA"].includes(e.target.tagName)) return;
+      const n = Number(e.key);
+      if (n >= 1 && n <= 4) openTopic(TOPICS[n-1].id, true);
+    });
+
+    window.addEventListener("hashchange", () => initFromHash());
+
     renderCards();
+    initFromHash();
   </script>
 </body>
 </html>
