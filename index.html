@@ -69,23 +69,6 @@
       line-height: 1.35;
     }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border:1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .dot{
-      width:10px;height:10px;border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(52,211,153,.12);
-    }
-
     .grid{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -97,15 +80,11 @@
     @media (max-width: 980px){
       .grid{ grid-template-columns: repeat(2, 1fr); }
     }
-
-    /* ✅ มือถือ: ให้ 1 คอลัมน์ + ปุ่มกดง่าย */
     @media (max-width: 600px){
       header{ align-items:flex-start; }
       h1{ font-size: 20px; }
       .subtitle{ font-size: 13px; }
-      .badge{ font-size: 12px; padding: 8px 10px; }
       .grid{ grid-template-columns: 1fr; gap: 10px; }
-      .card{ padding: 14px 14px; }
       .pill{ font-size: 11px; }
     }
 
@@ -161,50 +140,21 @@
       line-height: 1.35;
     }
 
-    .viewer-wrap{
+    /* ✅ ส่วนแสดงสถานะหัวข้อที่เลือก (ไม่ใช้ iframe แล้ว) */
+    .status{
       border:1px solid var(--border);
       border-radius: var(--radius);
       background: rgba(255,255,255,.03);
-      overflow:hidden;
+      padding: 12px 14px;
       box-shadow: var(--shadow);
-    }
-
-    .viewer-bar{
       display:flex;
-      align-items:center;
+      gap:10px;
+      align-items:flex-start;
       justify-content:space-between;
-      gap: 12px;
-      padding: 10px 12px;
-      border-bottom:1px solid var(--border);
-      background: rgba(0,0,0,.25);
+      flex-wrap:wrap;
     }
-
-    .viewer-title{
-      display:flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-    .viewer-title strong{
-      font-size: 14px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .viewer-title span{
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .actions{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-    }
+    .status strong{ font-size: 14px; }
+    .status span{ color: var(--muted); font-size: 12px; }
 
     .btn{
       appearance:none;
@@ -212,11 +162,10 @@
       background: rgba(255,255,255,.05);
       color: var(--text);
       border-radius: 12px;
-      padding: 10px 12px;           /* ✅ ใหญ่ขึ้นสำหรับนิ้ว */
-      min-height: 44px;              /* ✅ touch target */
+      padding: 10px 12px;
+      min-height: 44px;
       font-size: 13px;
       cursor:pointer;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
@@ -224,7 +173,6 @@
       white-space: nowrap;
     }
     .btn:hover{
-      transform: translateY(-1px);
       border-color: rgba(255,255,255,.26);
       background: rgba(255,255,255,.08);
     }
@@ -237,41 +185,8 @@
       background: rgba(52,211,153,.14);
     }
 
-    /* ✅ มือถือ: จัดปุ่มให้เต็มบรรทัด กดง่าย */
     @media (max-width: 600px){
-      .viewer-bar{
-        align-items:flex-start;
-        flex-direction: column;
-      }
-      .actions{
-        width: 100%;
-        justify-content: stretch;
-      }
-      .btn{
-        flex: 1 1 auto;
-        width: 100%;
-        justify-content:center;
-      }
-    }
-
-    iframe{
-      width: 100%;
-      height: min(78vh, 820px);
-      border:0;
-      background: #0b0f1a;
-      display:block;
-    }
-
-    /* ✅ มือถือ: เพิ่มความสูง PDF ให้ดูง่าย */
-    @media (max-width: 600px){
-      iframe{ height: 75vh; }
-    }
-
-    .hint{
-      padding: 10px 12px 14px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
+      .btn{ width:100%; justify-content:center; }
     }
 
     .footer{
@@ -283,7 +198,6 @@
       gap: 12px;
       flex-wrap: wrap;
     }
-
     .kbd{
       border:1px solid var(--border);
       padding: 2px 6px;
@@ -292,8 +206,6 @@
       color: var(--text);
       font-size: 12px;
     }
-
-    /* ✅ มือถือ: ซ่อน hint คีย์บอร์ด */
     @media (max-width: 600px){
       .footer .kbd{ display:none; }
     }
@@ -305,34 +217,19 @@
     <header>
       <div class="title">
         <h1>คู่มือการใช้งานระบบ Tiger Soft</h1>
-        <p class="subtitle">เลือกหัวข้อด้านล่างเพื่อเปิดเอกสาร PDF (รองรับมือถือและคอม)</p>
-      </div>
-
-      <div class="badge" title="สถานะหน้าเว็บ">
-        <span class="dot"></span>
-        พร้อมใช้งานบน GitHub Pages
+        <p class="subtitle">คลิกหัวข้อเพื่อเปิด PDF ในแท็บใหม่ทันที</p>
       </div>
     </header>
 
     <section class="grid" id="topicGrid" aria-label="หัวข้อคู่มือ"></section>
 
-    <section class="viewer-wrap" aria-label="PDF Viewer">
-      <div class="viewer-bar">
-        <div class="viewer-title">
-          <strong id="viewerName">ยังไม่ได้เลือกหัวข้อ</strong>
-          <span id="viewerPath">กรุณากดหัวข้อเพื่อแสดง PDF</span>
-        </div>
-
-        <div class="actions">
-          <a class="btn primary" id="openNewTab" href="#" target="_blank" rel="noopener">📱 เปิดเต็มจอ</a>
-          <a class="btn" id="downloadPdf" href="#" download>⬇️ ดาวน์โหลด</a>
-        </div>
+    <!-- ✅ แสดงชื่อหัวข้อที่เลือก + ปุ่มดาวน์โหลด (ไม่ใช้ iframe) -->
+    <section class="status" aria-label="Selected Topic">
+      <div>
+        <strong id="viewerName">ยังไม่ได้เลือกหัวข้อ</strong><br>
+        <span id="viewerPath">เมื่อคลิกหัวข้อ ระบบจะเปิด PDF ในแท็บใหม่</span>
       </div>
-
-      <iframe id="pdfFrame" title="Tiger Soft Manual PDF" src=""></iframe>
-      <div class="hint">
-        Tip: มือถือแนะนำกด “เปิดเต็มจอ” เพื่ออ่าน/ซูมได้ง่ายขึ้น
-      </div>
+      <a class="btn primary" id="downloadPdf" href="#" download>⬇️ ดาวน์โหลดไฟล์ล่าสุด</a>
     </section>
 
     <div class="footer">
@@ -342,53 +239,23 @@
   </div>
 
   <script>
-    // ===========================
-    // CONFIG: 4 หัวข้อ (ไฟล์อยู่ในโฟลเดอร์ Doc/)
-    // ===========================
     const TOPICS = [
-      {
-        id: "t1",
-        no: "01",
-        title: "คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน",
-        desc: "Mobile Guide (Employee)",
-        file: "คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน.pdf"
-      },
-      {
-        id: "t2",
-        no: "02",
-        title: "คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า",
-        desc: "Mobile Guide (Supervisor)",
-        file: "คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า.pdf"
-      },
-      {
-        id: "t3",
-        no: "03",
-        title: "คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน",
-        desc: "PC Guide (Employee)",
-        file: "คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน.pdf"
-      },
-      {
-        id: "t4",
-        no: "04",
-        title: "คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน",
-        desc: "PC Guide (Supervisor)",
-        file: "คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน.pdf"
-      }
+      { id:"t1", no:"01", title:"คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน", desc:"Mobile Guide (Employee)", file:"คู่มือการเข้าใข้ผ่านมือถือสำหรับพนักงาน.pdf" },
+      { id:"t2", no:"02", title:"คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า", desc:"Mobile Guide (Supervisor)", file:"คู่มือการเข้าใข้ผ่านมือถือสำหรับหัวหน้า.pdf" },
+      { id:"t3", no:"03", title:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน", desc:"PC Guide (Employee)", file:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับพนักงาน.pdf" },
+      { id:"t4", no:"04", title:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน", desc:"PC Guide (Supervisor)", file:"คู่มือการเข้าใข้ผ่านคอมพิวเตอร์สำหรับหัวหน้างาน.pdf" }
     ];
 
     const els = {
       grid: document.getElementById("topicGrid"),
-      frame: document.getElementById("pdfFrame"),
       name: document.getElementById("viewerName"),
       path: document.getElementById("viewerPath"),
-      openNewTab: document.getElementById("openNewTab"),
       download: document.getElementById("downloadPdf"),
       year: document.getElementById("year"),
     };
 
     els.year.textContent = new Date().getFullYear();
 
-    // รองรับชื่อไฟล์ภาษาไทยบน GitHub Pages
     function buildPdfUrl(fileName){
       return `Doc/${encodeURIComponent(fileName)}`;
     }
@@ -406,7 +273,7 @@
       `).join("");
 
       els.grid.querySelectorAll(".card").forEach(btn => {
-        btn.addEventListener("click", () => selectTopic(btn.dataset.id, true));
+        btn.addEventListener("click", () => selectTopic(btn.dataset.id, true, true));
       });
     }
 
@@ -416,7 +283,8 @@
       });
     }
 
-    function selectTopic(topicId, updateHash){
+    // openNewTab=true => เปิด PDF ทันที
+    function selectTopic(topicId, updateHash, openNewTab){
       const t = TOPICS.find(x => x.id === topicId) || TOPICS[0];
       const pdfUrl = buildPdfUrl(t.file);
 
@@ -424,32 +292,29 @@
       els.name.textContent = t.title;
       els.path.textContent = pdfUrl;
 
-      // แสดงใน iframe (บางมือถือซูมไม่ง่าย จึงมีปุ่มเปิดเต็มจอ)
-      els.frame.src = `${pdfUrl}#view=FitH`;
-
-      // ปุ่ม actions
-      els.openNewTab.href = pdfUrl;  // เปิดเต็มจอ
+      // ปุ่มดาวน์โหลด ให้ดาวน์โหลดหัวข้อที่เลือกล่าสุด
       els.download.href = pdfUrl;
 
       if (updateHash) location.hash = t.id;
 
-      // ✅ บนมือถือ: เลื่อนลงไปที่ viewer อัตโนมัติหลังเลือกหัวข้อ
-      if (window.matchMedia("(max-width: 600px)").matches) {
-        document.querySelector(".viewer-wrap").scrollIntoView({ behavior: "smooth", block: "start" });
+      // ✅ เปิด PDF ในแท็บใหม่ทันทีเมื่อคลิก
+      if (openNewTab) {
+        window.open(pdfUrl, "_blank", "noopener");
       }
     }
 
     function initFromHash(){
       const id = location.hash.replace("#", "");
       const found = TOPICS.some(t => t.id === id);
-      selectTopic(found ? id : TOPICS[0].id, !found);
+      // โหลดจาก hash ไม่เปิดแท็บใหม่อัตโนมัติ (กันเด้งตอนรีเฟรช)
+      selectTopic(found ? id : TOPICS[0].id, !found, false);
     }
 
-    // Keyboard shortcut 1-4 (เหมาะกับคอม)
+    // Keyboard shortcut 1-4 (เหมาะกับคอม) -> เปิดแท็บใหม่
     window.addEventListener("keydown", (e) => {
       if (e.target && ["INPUT","TEXTAREA"].includes(e.target.tagName)) return;
       const n = Number(e.key);
-      if (n >= 1 && n <= 4) selectTopic(TOPICS[n-1].id, true);
+      if (n >= 1 && n <= 4) selectTopic(TOPICS[n-1].id, true, true);
     });
 
     window.addEventListener("hashchange", () => initFromHash());
