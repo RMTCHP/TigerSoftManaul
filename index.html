@@ -2,112 +2,336 @@
 <html lang="th">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>คู่มือการใช้งานระบบ Tiger Soft</title>
 
   <style>
     :root{
-      --bg:#0b1220;
-      --card:rgba(255,255,255,.06);
-      --card2:rgba(255,255,255,.10);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.70);
-      --border:rgba(255,255,255,.14);
-      --accent:#34d399;
-      --shadow:0 16px 40px rgba(0,0,0,.35);
-      --radius:18px;
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --border: rgba(255,255,255,.14);
+      --accent: #34d399;
+      --accent2: #60a5fa;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --radius: 18px;
     }
-    *{box-sizing:border-box}
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans Thai",sans-serif;
-      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif;
+      color: var(--text);
       background:
         radial-gradient(900px 500px at 10% 0%, rgba(96,165,250,.25), transparent 60%),
         radial-gradient(700px 420px at 90% 10%, rgba(52,211,153,.18), transparent 60%),
-        linear-gradient(180deg,#071022 0%,#050914 100%);
-      min-height:100vh;
+        linear-gradient(180deg, #071022 0%, #050914 100%);
+      min-height: 100vh;
     }
-    .container{max-width:1100px;margin:0 auto;padding:28px 18px 40px}
-    header{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:18px}
-    h1{font-size:24px;margin:0;letter-spacing:.2px}
-    .subtitle{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.35}
+
+    .container{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding:
+        calc(28px + env(safe-area-inset-top))
+        18px
+        calc(40px + env(safe-area-inset-bottom));
+    }
+
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .title{
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    h1{
+      font-size: 24px;
+      margin:0;
+      letter-spacing: .2px;
+    }
+    .subtitle{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
     .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 12px;border:1px solid var(--border);
-      border-radius:999px;background:rgba(255,255,255,.04);
-      color:var(--muted);font-size:13px
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
     }
-    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 6px rgba(52,211,153,.12)}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 16px}
-    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:520px){.grid{grid-template-columns:1fr}}
+    .dot{
+      width:10px;height:10px;border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(52,211,153,.12);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ✅ มือถือ: ให้ 1 คอลัมน์ + ปุ่มกดง่าย */
+    @media (max-width: 600px){
+      header{ align-items:flex-start; }
+      h1{ font-size: 20px; }
+      .subtitle{ font-size: 13px; }
+      .badge{ font-size: 12px; padding: 8px 10px; }
+      .grid{ grid-template-columns: 1fr; gap: 10px; }
+      .card{ padding: 14px 14px; }
+      .pill{ font-size: 11px; }
+    }
+
     .card{
-      cursor:pointer;border:1px solid var(--border);
-      background:linear-gradient(180deg,var(--card) 0%,rgba(255,255,255,.03) 100%);
-      border-radius:var(--radius);padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.25);
-      transition:transform .15s ease,border-color .15s ease,background .15s ease;
-      user-select:none;outline:none
+      cursor:pointer;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--card) 0%, rgba(255,255,255,.03) 100%);
+      border-radius: var(--radius);
+      padding: 14px 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+      outline: none;
+      text-align:left;
     }
-    .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.24);background:linear-gradient(180deg,var(--card2) 0%,rgba(255,255,255,.04) 100%)}
-    .card.active{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 3px rgba(96,165,250,.18),var(--shadow)}
-    .card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-    .pill{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--muted);white-space:nowrap}
-    .card h3{margin:0;font-size:15px;letter-spacing:.2px}
-    .card p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
-    .viewer-wrap{border:1px solid var(--border);border-radius:var(--radius);background:rgba(255,255,255,.03);overflow:hidden;box-shadow:var(--shadow)}
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.24);
+      background: linear-gradient(180deg, var(--card2) 0%, rgba(255,255,255,.04) 100%);
+    }
+    .card.active{
+      border-color: rgba(96,165,250,.55);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.18), var(--shadow);
+    }
+
+    .card-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .pill{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .card h3{
+      margin:0;
+      font-size: 15px;
+      letter-spacing: .2px;
+    }
+    .card p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .viewer-wrap{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+
     .viewer-bar{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:10px 12px;border-bottom:1px solid var(--border);
-      background:rgba(0,0,0,.25)
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom:1px solid var(--border);
+      background: rgba(0,0,0,.25);
     }
-    .viewer-title{display:flex;flex-direction:column;gap:2px;min-width:0}
-    .viewer-title strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .viewer-title span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .actions{display:flex;gap:8px;flex-wrap:wrap}
+
+    .viewer-title{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .viewer-title strong{
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .viewer-title span{
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .actions{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+
     .btn{
-      appearance:none;border:1px solid var(--border);background:rgba(255,255,255,.05);
-      color:var(--text);border-radius:12px;padding:8px 10px;font-size:13px;
-      cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease;
-      text-decoration:none;display:inline-flex;align-items:center;gap:8px
+      appearance:none;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;           /* ✅ ใหญ่ขึ้นสำหรับนิ้ว */
+      min-height: 44px;              /* ✅ touch target */
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      white-space: nowrap;
     }
-    .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.08)}
-    .btn.primary{border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.10)}
-    .btn.primary:hover{border-color:rgba(52,211,153,.55);background:rgba(52,211,153,.14)}
-    iframe{width:100%;height:min(78vh,820px);border:0;background:#0b0f1a;display:block}
-    .hint{padding:10px 12px 14px;color:var(--muted);font-size:12px;line-height:1.35}
-    .footer{margin-top:14px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .kbd{border:1px solid var(--border);padding:2px 6px;border-radius:8px;background:rgba(255,255,255,.04);color:var(--text);font-size:12px}
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.26);
+      background: rgba(255,255,255,.08);
+    }
+    .btn.primary{
+      border-color: rgba(52,211,153,.35);
+      background: rgba(52,211,153,.10);
+    }
+    .btn.primary:hover{
+      border-color: rgba(52,211,153,.55);
+      background: rgba(52,211,153,.14);
+    }
+
+    /* ✅ มือถือ: จัดปุ่มให้เต็มบรรทัด กดง่าย */
+    @media (max-width: 600px){
+      .viewer-bar{
+        align-items:flex-start;
+        flex-direction: column;
+      }
+      .actions{
+        width: 100%;
+        justify-content: stretch;
+      }
+      .btn{
+        flex: 1 1 auto;
+        width: 100%;
+        justify-content:center;
+      }
+    }
+
+    iframe{
+      width: 100%;
+      height: min(78vh, 820px);
+      border:0;
+      background: #0b0f1a;
+      display:block;
+    }
+
+    /* ✅ มือถือ: เพิ่มความสูง PDF ให้ดูง่าย */
+    @media (max-width: 600px){
+      iframe{ height: 75vh; }
+    }
+
+    .hint{
+      padding: 10px 12px 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .footer{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .kbd{
+      border:1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    /* ✅ มือถือ: ซ่อน hint คีย์บอร์ด */
+    @media (max-width: 600px){
+      .footer .kbd{ display:none; }
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <header>
-      <div>
+      <div class="title">
         <h1>คู่มือการใช้งานระบบ Tiger Soft</h1>
-        <p class="subtitle">เลือกหัวข้อด้านล่างเพื่อเปิดเอกสาร PDF (อยู่ในโฟลเดอร์ Doc)</p>
+        <p class="subtitle">เลือกหัวข้อด้านล่างเพื่อเปิดเอกสาร PDF (รองรับมือถือและคอม)</p>
       </div>
-      <div class="badge"><span class="dot"></span>พร้อมใช้งานบน GitHub Pages</div>
+
+      <div class="badge" title="สถานะหน้าเว็บ">
+        <span class="dot"></span>
+        พร้อมใช้งานบน GitHub Pages
+      </div>
     </header>
 
-    <section class="grid" id="topicGrid"></section>
+    <section class="grid" id="topicGrid" aria-label="หัวข้อคู่มือ"></section>
 
-    <section class="viewer-wrap">
+    <section class="viewer-wrap" aria-label="PDF Viewer">
       <div class="viewer-bar">
         <div class="viewer-title">
           <strong id="viewerName">ยังไม่ได้เลือกหัวข้อ</strong>
           <span id="viewerPath">กรุณากดหัวข้อเพื่อแสดง PDF</span>
         </div>
+
         <div class="actions">
-          <a class="btn primary" id="openNewTab" href="#" target="_blank" rel="noopener">🔎 เปิดแท็บใหม่</a>
+          <a class="btn primary" id="openNewTab" href="#" target="_blank" rel="noopener">📱 เปิดเต็มจอ</a>
           <a class="btn" id="downloadPdf" href="#" download>⬇️ ดาวน์โหลด</a>
         </div>
       </div>
 
       <iframe id="pdfFrame" title="Tiger Soft Manual PDF" src=""></iframe>
       <div class="hint">
-        Tip: ถ้าต้องการค้นหาคำใน PDF ให้เปิดแท็บใหม่ แล้วใช้ <span class="kbd">Ctrl</span> + <span class="kbd">F</span>
+        Tip: มือถือแนะนำกด “เปิดเต็มจอ” เพื่ออ่าน/ซูมได้ง่ายขึ้น
       </div>
     </section>
 
@@ -119,7 +343,7 @@
 
   <script>
     // ===========================
-    // CONFIG: 4 หัวข้อ (ไฟล์อยู่ /Doc/)
+    // CONFIG: 4 หัวข้อ (ไฟล์อยู่ในโฟลเดอร์ Doc/)
     // ===========================
     const TOPICS = [
       {
@@ -164,14 +388,14 @@
 
     els.year.textContent = new Date().getFullYear();
 
-    // สร้าง path แบบปลอดภัยสำหรับชื่อไฟล์ภาษาไทย
+    // รองรับชื่อไฟล์ภาษาไทยบน GitHub Pages
     function buildPdfUrl(fileName){
       return `Doc/${encodeURIComponent(fileName)}`;
     }
 
     function renderCards(){
       els.grid.innerHTML = TOPICS.map(t => `
-        <button class="card" data-id="${t.id}" type="button">
+        <button class="card" data-id="${t.id}" type="button" aria-label="${t.title}">
           <div class="card-top">
             <span class="pill">Topic ${t.no}</span>
             <span class="pill" style="border-color: rgba(96,165,250,.35); background: rgba(96,165,250,.08);">PDF</span>
@@ -200,14 +424,19 @@
       els.name.textContent = t.title;
       els.path.textContent = pdfUrl;
 
-      // แสดง PDF (FitH ช่วยเรื่องการซูมบาง browser)
+      // แสดงใน iframe (บางมือถือซูมไม่ง่าย จึงมีปุ่มเปิดเต็มจอ)
       els.frame.src = `${pdfUrl}#view=FitH`;
 
       // ปุ่ม actions
-      els.openNewTab.href = pdfUrl;
+      els.openNewTab.href = pdfUrl;  // เปิดเต็มจอ
       els.download.href = pdfUrl;
 
       if (updateHash) location.hash = t.id;
+
+      // ✅ บนมือถือ: เลื่อนลงไปที่ viewer อัตโนมัติหลังเลือกหัวข้อ
+      if (window.matchMedia("(max-width: 600px)").matches) {
+        document.querySelector(".viewer-wrap").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
 
     function initFromHash(){
@@ -216,7 +445,7 @@
       selectTopic(found ? id : TOPICS[0].id, !found);
     }
 
-    // Keyboard shortcut 1-4
+    // Keyboard shortcut 1-4 (เหมาะกับคอม)
     window.addEventListener("keydown", (e) => {
       if (e.target && ["INPUT","TEXTAREA"].includes(e.target.tagName)) return;
       const n = Number(e.key);
