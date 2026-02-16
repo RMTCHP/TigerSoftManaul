@@ -13,7 +13,6 @@
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --border: rgba(255,255,255,.14);
-      --accent: #34d399;
       --accent2: #60a5fa;
       --shadow: 0 16px 40px rgba(0,0,0,.35);
       --radius: 18px;
@@ -51,23 +50,8 @@
       margin-bottom: 18px;
     }
 
-    .title{
-      display:flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    h1{
-      font-size: 24px;
-      margin:0;
-      letter-spacing: .2px;
-    }
-    .subtitle{
-      margin:0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.35;
-    }
+    h1{ font-size: 24px; margin:0; letter-spacing: .2px; }
+    .subtitle{ margin:6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.35; }
 
     .grid{
       display:grid;
@@ -77,11 +61,8 @@
       margin-bottom: 16px;
     }
 
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px){
-      header{ align-items:flex-start; }
       h1{ font-size: 20px; }
       .subtitle{ font-size: 13px; }
       .grid{ grid-template-columns: 1fr; gap: 10px; }
@@ -128,66 +109,8 @@
       white-space: nowrap;
     }
 
-    .card h3{
-      margin:0;
-      font-size: 15px;
-      letter-spacing: .2px;
-    }
-    .card p{
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    /* ✅ ส่วนแสดงสถานะหัวข้อที่เลือก (ไม่ใช้ iframe แล้ว) */
-    .status{
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.03);
-      padding: 12px 14px;
-      box-shadow: var(--shadow);
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .status strong{ font-size: 14px; }
-    .status span{ color: var(--muted); font-size: 12px; }
-
-    .btn{
-      appearance:none;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 10px 12px;
-      min-height: 44px;
-      font-size: 13px;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-    .btn:hover{
-      border-color: rgba(255,255,255,.26);
-      background: rgba(255,255,255,.08);
-    }
-    .btn.primary{
-      border-color: rgba(52,211,153,.35);
-      background: rgba(52,211,153,.10);
-    }
-    .btn.primary:hover{
-      border-color: rgba(52,211,153,.55);
-      background: rgba(52,211,153,.14);
-    }
-
-    @media (max-width: 600px){
-      .btn{ width:100%; justify-content:center; }
-    }
+    .card h3{ margin:0; font-size: 15px; letter-spacing: .2px; }
+    .card p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
 
     .footer{
       margin-top: 14px;
@@ -215,22 +138,13 @@
 <body>
   <div class="container">
     <header>
-      <div class="title">
+      <div>
         <h1>คู่มือการใช้งานระบบ Tiger Soft</h1>
         <p class="subtitle">คลิกหัวข้อเพื่อเปิด PDF ในแท็บใหม่ทันที</p>
       </div>
     </header>
 
     <section class="grid" id="topicGrid" aria-label="หัวข้อคู่มือ"></section>
-
-    <!-- ✅ แสดงชื่อหัวข้อที่เลือก + ปุ่มดาวน์โหลด (ไม่ใช้ iframe) -->
-    <section class="status" aria-label="Selected Topic">
-      <div>
-        <strong id="viewerName">ยังไม่ได้เลือกหัวข้อ</strong><br>
-        <span id="viewerPath">เมื่อคลิกหัวข้อ ระบบจะเปิด PDF ในแท็บใหม่</span>
-      </div>
-      <a class="btn primary" id="downloadPdf" href="#" download>⬇️ ดาวน์โหลดไฟล์ล่าสุด</a>
-    </section>
 
     <div class="footer">
       <div>© <span id="year"></span> Tiger Soft Manual • 1-page Web App</div>
@@ -248,12 +162,8 @@
 
     const els = {
       grid: document.getElementById("topicGrid"),
-      name: document.getElementById("viewerName"),
-      path: document.getElementById("viewerPath"),
-      download: document.getElementById("downloadPdf"),
       year: document.getElementById("year"),
     };
-
     els.year.textContent = new Date().getFullYear();
 
     function buildPdfUrl(fileName){
@@ -273,7 +183,7 @@
       `).join("");
 
       els.grid.querySelectorAll(".card").forEach(btn => {
-        btn.addEventListener("click", () => selectTopic(btn.dataset.id, true, true));
+        btn.addEventListener("click", () => openTopic(btn.dataset.id, true));
       });
     }
 
@@ -283,38 +193,29 @@
       });
     }
 
-    // openNewTab=true => เปิด PDF ทันที
-    function selectTopic(topicId, updateHash, openNewTab){
+    function openTopic(topicId, updateHash){
       const t = TOPICS.find(x => x.id === topicId) || TOPICS[0];
       const pdfUrl = buildPdfUrl(t.file);
 
       setActiveCard(t.id);
-      els.name.textContent = t.title;
-      els.path.textContent = pdfUrl;
-
-      // ปุ่มดาวน์โหลด ให้ดาวน์โหลดหัวข้อที่เลือกล่าสุด
-      els.download.href = pdfUrl;
-
       if (updateHash) location.hash = t.id;
 
-      // ✅ เปิด PDF ในแท็บใหม่ทันทีเมื่อคลิก
-      if (openNewTab) {
-        window.open(pdfUrl, "_blank", "noopener");
-      }
+      // ✅ เปิด PDF ในแท็บใหม่ทันที
+      window.open(pdfUrl, "_blank", "noopener");
     }
 
+    // โหลดจาก hash ไม่เด้งเปิดแท็บใหม่ตอนรีเฟรช
     function initFromHash(){
       const id = location.hash.replace("#", "");
       const found = TOPICS.some(t => t.id === id);
-      // โหลดจาก hash ไม่เปิดแท็บใหม่อัตโนมัติ (กันเด้งตอนรีเฟรช)
-      selectTopic(found ? id : TOPICS[0].id, !found, false);
+      setActiveCard(found ? id : TOPICS[0].id);
     }
 
-    // Keyboard shortcut 1-4 (เหมาะกับคอม) -> เปิดแท็บใหม่
+    // Keyboard shortcut 1-4 (คอม) -> เปิดแท็บใหม่
     window.addEventListener("keydown", (e) => {
       if (e.target && ["INPUT","TEXTAREA"].includes(e.target.tagName)) return;
       const n = Number(e.key);
-      if (n >= 1 && n <= 4) selectTopic(TOPICS[n-1].id, true, true);
+      if (n >= 1 && n <= 4) openTopic(TOPICS[n-1].id, true);
     });
 
     window.addEventListener("hashchange", () => initFromHash());
